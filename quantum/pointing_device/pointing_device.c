@@ -435,15 +435,23 @@ report_mouse_t pointing_device_adjust_by_defines_right(report_mouse_t mouse_repo
 #    if defined(POINTING_DEVICE_ROTATION_90_RIGHT) || defined(POINTING_DEVICE_ROTATION_180_RIGHT) || defined(POINTING_DEVICE_ROTATION_270_RIGHT)
     mouse_xy_report_t x = mouse_report.x;
     mouse_xy_report_t y = mouse_report.y;
+    int8_t h = mouse_report.h;
+    int8_t v = mouse_report.v;
 #        if defined(POINTING_DEVICE_ROTATION_90_RIGHT)
     mouse_report.x = y;
     mouse_report.y = -x;
+    mouse_report.h = v;
+    mouse_report.v = -h;
 #        elif defined(POINTING_DEVICE_ROTATION_180_RIGHT)
     mouse_report.x = -x;
     mouse_report.y = -y;
+    mouse_report.h = -h;
+    mouse_report.v = -y;
 #        elif defined(POINTING_DEVICE_ROTATION_270_RIGHT)
     mouse_report.x = -y;
     mouse_report.y = x;
+    mouse_report.h = -v;
+    mouse_report.v = h;
 #        else
 #            error "How the heck did you get here?!"
 #        endif
