@@ -31,7 +31,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "v5.h"
+#include "tptest.h"
 
 #ifdef RGB_MATRIX_ENABLE
 led_config_t g_led_config = { {

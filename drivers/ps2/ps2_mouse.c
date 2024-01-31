@@ -25,8 +25,52 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "report.h"
 #include "debug.h"
 #include "ps2.h"
+#include QMK_KEYBOARD_H
+
 
 /* ============================= MACROS ============================ */
+
+// #define MOUSE_PS2_GET_BIT(data, bit_pos) ((data >> bit_pos) & 0x1)
+// #define MOUSE_PS2_SET_BIT(data, bit_val, bit_pos) (data |= (bit_val) << bit_pos)
+// uint16_t ps2_config_set(uint16_t config_bit, bool enabled, char *descr) {
+//     uint8_t rcv = 0;
+
+//     if (PS2_MOUSE_STREAM_MODE == ps2_mouse_mode) { 
+//         ps2_mouse_disable_data_reporting();        
+//     }
+//     PS2_MOUSE_SEND(0xE2, "tps: 0xE2");
+//     PS2_MOUSE_SEND(0x80, "tps: 0x80");
+//     PS2_MOUSE_SEND(0x2C, "tps: 0x2C");
+//     uint8_t config_byte = ps2_host_recv_response();
+//     if (PS2_MOUSE_STREAM_MODE == ps2_mouse_mode) { 
+//         ps2_mouse_enable_data_reporting();        
+//     }  
+
+//     bool is_enabled = MOUSE_PS2_GET_BIT(config_byte, config_bit);
+
+//     if (is_enabled == enabled) {
+//         // LOG_DBG("Trackpoint %s was already %s... not doing anything.", descr,
+//                 // is_enabled ? "enabled" : "disabled");
+//         return 0;
+//     }
+
+//     // LOG_DBG("Setting trackpoint %s: %s", descr, enabled ? "enabled" : "disabled");
+
+//     MOUSE_PS2_SET_BIT(config_byte, enabled, config_bit);
+
+//     if (PS2_MOUSE_STREAM_MODE == ps2_mouse_mode) { 
+//         ps2_mouse_disable_data_reporting();        
+//     }  
+//     PS2_MOUSE_SEND(0xE2, "tps: 0xE2");
+//     PS2_MOUSE_SEND(0x81, "tps: 0x81");
+//     PS2_MOUSE_SEND(0x2C, "tps: 0x2C");
+//     PS2_MOUSE_SEND(config_byte, "tps: config value");
+//     if (PS2_MOUSE_STREAM_MODE == ps2_mouse_mode) { 
+//         ps2_mouse_enable_data_reporting();        
+//     }  
+
+//     return rcv;
+// }
 
 static report_mouse_t mouse_report = {};
 
@@ -43,6 +87,23 @@ void ps2_mouse_init(void) {
     ps2_host_init();
 
     wait_ms(PS2_MOUSE_INIT_DELAY); // wait for powering up
+
+    uint8_t rcv;
+    rcv = ps2_host_send(0xE2);
+    rcv = ps2_host_send(0x2C);
+    rcv = ps2_host_recv_response();
+    uprintf("ps2_mouse_moved_user>>>tp_config1:%d", rcv);
+    if ((rcv & 1) == 0) {
+        // if on, disable pts
+        rcv = ps2_host_send(0xE2);
+        uprintf("ps2_mouse_moved_user>>>tp_config a:%d", rcv);
+        rcv = ps2_host_send(0x47);
+        uprintf("ps2_mouse_moved_user>>>tp_config b:%d", rcv);
+        rcv = ps2_host_send(0x2C);
+        uprintf("ps2_mouse_moved_user>>>tp_config c:%d", rcv);
+        rcv = ps2_host_send(0x01);
+        uprintf("ps2_mouse_moved_user>>>tp_config d:%d", rcv);
+    }
 
     PS2_MOUSE_SEND(PS2_MOUSE_RESET, "ps2_mouse_init: sending reset");
 
@@ -64,7 +125,30 @@ void ps2_mouse_init(void) {
     ps2_mouse_set_scaling_2_1();
 #endif
 
+    // ps2_config_set(MOUSE_PS2_TP_CONFIG_BIT_PRESS_TO_SELECT, true, "Press To Select");
+    // PS2_MOUSE_SEND(PS2_MOUSE_CONFIG_1, "tps: 0xE2");
+
+    // rcv = ps2_host_send(0xE2);
+    // rcv = ps2_host_send(0x81);
+    // rcv = ps2_host_send(0x2C);
+    // rcv = ps2_host_send(0x21);
+
+    rcv = ps2_host_send(0xE2);
+    rcv = ps2_host_send(0x81);
+    rcv = ps2_host_send(0x5C);
+    rcv = ps2_host_send(0x2);
+
+
+    rcv = ps2_host_send(0xE2);
+    rcv = ps2_host_send(0x81);
+    rcv = ps2_host_send(0x5A);
+    rcv = ps2_host_send(0x1);
+
     ps2_mouse_init_user();
+    rcv = ps2_host_send(0xE2);
+    rcv = ps2_host_send(0x2C);
+    rcv = ps2_host_recv_response();
+    uprintf("ps2_mouse_moved_user>>>tp_config2:%d", rcv);
 }
 
 __attribute__((weak)) void ps2_mouse_init_user(void) {}
@@ -87,7 +171,7 @@ void ps2_mouse_task(void) {
         mouse_report.v = -(ps2_host_recv_response() & PS2_MOUSE_SCROLL_MASK);
 #    endif
     } else {
-        if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
+        if (debug_mouse) print("ps2_mouse: 1fail to get mouse packet\n");
     }
 #else
     if (pbuf_has_data()) {
@@ -98,9 +182,13 @@ void ps2_mouse_task(void) {
         mouse_report.v       = -(ps2_host_recv_response() & PS2_MOUSE_SCROLL_MASK);
 #    endif
     } else {
-        if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
+        if (debug_mouse) print("ps2_mouse: 2fail to get mouse packet\n");
     }
 #endif
+    // if (debug_mouse) uprintf("ps2_mouse: x:%d, y:%d, v:%d, h:%d", mouse_report.x, mouse_report.y, mouse_report.v, mouse_report.h);
+    if(abs(mouse_report.buttons) > 0 || abs(mouse_report.x) > 0 || abs(mouse_report.y) > 0 || abs(mouse_report.v) > 0 || abs(mouse_report.h) > 0) {
+        uprintf("ps2_mouse_moved_user>>>bts:%d, x:%d, y:%d, v:%d, h:%d", mouse_report.buttons, mouse_report.x, mouse_report.y, mouse_report.v, mouse_report.h);
+    }
 
     mouse_report.buttons |= tp_buttons;
     ps2_mouse_moved_user(&mouse_report);

@@ -19,6 +19,11 @@
 #include "report.h"
 #include "print.h"
 
+#ifdef PS2_MOUSE_ENABLE
+#include "ps2_mouse.h"
+#include "ps2.h"
+#endif
+
 #ifdef TRACKPOINT_TAP_ENABLE 
 #   include "trackpoint_tap.c"
 #endif
@@ -37,7 +42,23 @@ void toggle_trackpoint(bool status) {
 }
 
 void ps2_mouse_init_user(void) {
-  toggle_trackpoint(false);
+    // uint8_t rcv;
+    // rcv = ps2_host_send(0xE2);
+    // rcv = ps2_host_send(0x2C);
+    // rcv = ps2_host_recv_response();
+    // uprintf("ps2_mouse_moved_user>>>tp_config1:%d", rcv);
+    // if ((rcv & 1) == 0) {
+    //     // if on, disable pts
+    //     rcv = ps2_host_send(0xE2);
+    //     rcv = ps2_host_send(0x47);
+    //     rcv = ps2_host_send(0x2C);
+    //     rcv = ps2_host_send(0x01);
+    // }
+    // rcv = ps2_host_send(0xE2);
+    // rcv = ps2_host_send(0x2C);
+    // rcv = ps2_host_recv_response();
+    // uprintf("ps2_mouse_moved_user>>>tp_config2:%d", rcv);
+    toggle_trackpoint(false);
 }
 
 // void ps2_mouse_init_user(void) {
@@ -66,7 +87,7 @@ void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
         }
     }
     if(abs(mouse_report->x) > 0 || abs(mouse_report->y) > 0) {
-        uprintf("ps2_mouse_moved_user>>>x:%d, y:%d, v:%d, h:%d", mouse_report->x, mouse_report->y, mouse_report->v, mouse_report->h);
+        // uprintf("ps2_mouse_moved_user>>>x:%d, y:%d, v:%d, h:%d", mouse_report->x, mouse_report->y, mouse_report->v, mouse_report->h);
     }
 
     #ifdef TRACKPOINT_TAP_ENABLE 

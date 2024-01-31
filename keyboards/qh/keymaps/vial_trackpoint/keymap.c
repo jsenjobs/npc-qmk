@@ -35,7 +35,7 @@ enum custom_keycodes {
   TP_Toggle,
 };
 // 0x7e43
-
+// QK_BOOT
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_3x6(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -191,11 +191,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 // 0x7e43
-// #define PS2_MOUSE_DEBUG_RAW
-// void keyboard_post_init_user(void) {
-//   // Customise these values to desired behaviour
-//   debug_enable=true;
-//   debug_matrix=true;
-//   debug_keyboard=true;
-//   debug_mouse=true;
-// }
+#define PS2_MOUSE_DEBUG_RAW
+void keyboard_post_init_user(void) {
+  // Customise these values to desired behaviour
+  debug_enable=true;
+  debug_matrix=true;
+  debug_keyboard=true;
+  debug_mouse=true;
+}
