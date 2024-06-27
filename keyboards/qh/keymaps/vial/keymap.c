@@ -25,7 +25,7 @@ enum layer_number {
 };
 
 enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
+  QWERTY = QK_KB_0,
   COLEMAK,
   DVORAK
 };
