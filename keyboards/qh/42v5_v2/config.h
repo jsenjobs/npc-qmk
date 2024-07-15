@@ -28,8 +28,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
  // v5.2 with trackpoint
-#define MATRIX_ROW_PINS { B4, B5, B7, A6 }
-#define MATRIX_COL_PINS { B14, B15, A8, B0, A5, A7 }
+ // qhkbv5
+// #define MATRIX_ROW_PINS { B4, B5, B7, A6 }
+// #define MATRIX_COL_PINS { B14, B15, A8, B0, A5, A7 }
+// #define MATRIX_ROW_PINS_RIGHT { B12, B13, B14, B5 }
+// #define MATRIX_COL_PINS_RIGHT { B4, B7, B3, B15, A8, A9 }
+
+ // npc v1
+#define MATRIX_ROW_PINS { B4, B5, B7, A2 }
+#define MATRIX_COL_PINS { B14, B15, A8, B0, A1, A3 }
 #define MATRIX_ROW_PINS_RIGHT { B12, B13, B14, B5 }
 #define MATRIX_COL_PINS_RIGHT { B4, B7, B3, B15, A8, A9 }
 // v5.1 no trackpoint
@@ -176,11 +183,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define PS2_CLOCK_PIN A15
 // #define PS2_DATA_PIN  B3
 // right
-// #define PS2_CLOCK_PIN B0
-// #define PS2_DATA_PIN  B1
+#define PS2_CLOCK_PIN B0
+#define PS2_DATA_PIN  B1
 // track point test
-#define PS2_CLOCK_PIN A8
-#define PS2_DATA_PIN  A9
+// #define PS2_CLOCK_PIN A8
+// #define PS2_DATA_PIN  A9
 
 #define PS2_MOUSE_ROTATE 90
 // #define PS2_MOUSE_ENABLE_SCROLLING
