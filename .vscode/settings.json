@@ -18,7 +18,9 @@
         "xstddef": "c",
         "type_traits": "c",
         "utility": "c",
-        "ranges": "c"
+        "ranges": "c",
+        "chrono": "c",
+        "complex": "c"
     },
     "[markdown]": {
         "editor.trimAutoWhitespace": false,

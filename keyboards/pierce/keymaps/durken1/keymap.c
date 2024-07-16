@@ -1,3 +1,4 @@
+//// jsen
 /* Copyright 2022 durken (https://github.com/durken1/)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,36 +32,55 @@ enum combos {
     UK_ODIA
 };
 
-#if defined PS2_MOUSE_ENABLE
-#include "ps2_mouse.h"
-#endif
+#include 'trackpoint_config.h'
 
-#if defined AUTO_BUTTONS && defined PS2_MOUSE_ENABLE
+// #if defined PS2_MOUSE_ENABLE
+// #include "ps2_mouse.h"
+// #endif
 
-static uint16_t auto_buttons_timer;
-extern int tp_buttons; // mousekey button state set in action.c and used in ps2_mouse.c
+// #if defined AUTO_BUTTONS && defined PS2_MOUSE_ENABLE
 
-void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
-    if (auto_buttons_timer) {
-        auto_buttons_timer = timer_read();
-    } else {
-        if (!tp_buttons) {
-            layer_on(MBO);
-            auto_buttons_timer = timer_read();
-        }
-    }
-}
+// #define TRACKPOINT_AUTO_MOUSE_ENABLE
+// #define TRACKPOINT_TAP_ENABLE
 
+// #include 'trackpoint_auto_mouse.h'
+// #include 'trackpoint_tap.h'
+
+// static uint16_t auto_buttons_timer;
+// extern int tp_buttons; // mousekey button state set in action.c and used in ps2_mouse.c
+
+// void ps2_mouse_init_user(void) {
+//     set_trackpoint_auto_mouse_enable(true);
+//     set_trackpoint_tap_enable(true);
+// }
+
+// void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
+//     trackpoint_auto_mouse(*mouse_report);
+//     trackpoint_tap(*mouse_report);
+//     // if (auto_buttons_timer) {
+//     //     auto_buttons_timer = timer_read();
+//     // } else {
+//     //     if (!tp_buttons) {
+//     //         layer_on(MBO);
+//     //         auto_buttons_timer = timer_read();
+//     //     }
+//     // }
+// }
+
+// report_mouse_t empty_mouse = {};
 void matrix_scan_user(void) {
-    if (auto_buttons_timer && (timer_elapsed(auto_buttons_timer) > AUTO_BUTTONS_TIMEOUT)) {
-        if (!tp_buttons) {
-            layer_off(MBO);
-            auto_buttons_timer = 0;
-        }
-    }
+    trackpoint_matrix_scan_user();
+    // trackpoint_auto_mouse(empty_mouse);
+    // trackpoint_tap(empty_mouse);
+    // if (auto_buttons_timer && (timer_elapsed(auto_buttons_timer) > AUTO_BUTTONS_TIMEOUT)) {
+    //     if (!tp_buttons) {
+    //         layer_off(MBO);
+    //         auto_buttons_timer = 0;
+    //     }
+    // }
 }
 
-#endif // defined AUTO_BUTTONS && defined PS2_MOUSE_ENABLE
+// #endif // defined AUTO_BUTTONS && defined PS2_MOUSE_ENABLE
 
 // Left-hand home row mods
 #define GUI_A LGUI_T(KC_A)

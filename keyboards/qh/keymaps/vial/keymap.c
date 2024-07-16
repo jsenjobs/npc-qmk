@@ -15,25 +15,29 @@
  */
 #include QMK_KEYBOARD_H
 
+
+
 enum layer_number {
     _QWERTY = 0,
     _COLEMAK,
     _DVORAK,
     _LOWER,
     _RAISE,
-    _ADJUST
+    _ADJUST,
+    _MOUSE_KEY,
 };
 
 enum custom_keycodes {
-  QWERTY = QK_KB_0,
+  QWERTY = SAFE_RANGE,
   COLEMAK,
-  DVORAK
+  DVORAK,
 };
-
+// 0x7e43
+// QK_BOOT
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_3x6(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   QK_BOOT,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SEMICOLON, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -60,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [3] = LAYOUT_3x6(
+  [_LOWER] = LAYOUT_3x6(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_CAPS_LOCK,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -72,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [4] = LAYOUT_3x6(
+  [_RAISE] = LAYOUT_3x6(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB, LSFT(KC_1),   LSFT(KC_2), LSFT(KC_3),  LSFT(KC_4), LSFT(KC_5),                      LSFT(KC_6), LSFT(KC_7), LSFT(KC_8), LSFT(KC_9), LSFT(KC_0), KC_ESCAPE,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -84,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [5] = LAYOUT_3x6(
+  [_ADJUST] = LAYOUT_3x6(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5,                      KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -93,6 +97,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       RGB_MOD, RGB_VAI, RGB_SPI, KC_BRIGHTNESS_DOWN, KC_KB_VOLUME_DOWN, XXXXXXX,                      KC_MS_LEFT, KC_MS_DOWN, KC_MS_UP, KC_MS_RIGHT, KC_MS_BTN2, KC_MS_BTN3,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI, _______,  KC_SPC,     KC_ENT, _______, KC_RCTL
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+  [_MOUSE_KEY] = LAYOUT_3x6(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+        _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_BTN2, KC_BTN3,  KC_BTN1,     KC_BTN1, KC_BTN3, KC_BTN2
                                       //`--------------------------'  `--------------------------'
   )
 };
@@ -131,14 +147,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+      // toggle auto mouse enable key
   }
   return true;
 }
 
-void keyboard_post_init_user(void) {
-  // Customise these values to desired behaviour
-  debug_enable=true;
-  debug_matrix=true;
-  debug_keyboard=true;
-  debug_mouse=true;
-}
+// 0x7e43
+// #define PS2_MOUSE_DEBUG_RAW
+// void keyboard_post_init_user(void) {
+//   // Customise these values to desired behaviour
+//   debug_enable=true;
+//   debug_matrix=true;
+//   debug_keyboard=true;
+//   debug_mouse=true;
+// }
