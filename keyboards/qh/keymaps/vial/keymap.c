@@ -28,7 +28,7 @@ enum layer_number {
 };
 
 enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
+  QWERTY = QK_KB_0,
   COLEMAK,
   DVORAK,
 };
@@ -147,7 +147,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-      // toggle auto mouse enable key
   }
   return true;
 }

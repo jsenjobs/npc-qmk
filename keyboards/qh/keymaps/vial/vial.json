@@ -1,5 +1,22 @@
 {
     "lighting": "vialrgb",
+    "customKeycodes": [
+        {
+          "name": "QWERTY",
+          "title": "tog QWERTY",
+          "shortName": "QWERTY"
+        },
+        {
+          "name": "COLEMAK",
+          "title": "tog COLEMAK",
+          "shortName": "COLEMAK"
+        },
+        {
+          "name": "DVORAK",
+          "title": "tog DVORAK",
+          "shortName": "DVORAK"
+        }
+    ],
     "matrix": {
         "rows": 8,
         "cols": 6
