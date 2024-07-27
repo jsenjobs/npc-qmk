@@ -100,7 +100,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define WS2812_PWM_TARGET_PERIOD 800000
 
 
-
+// for vim leader key
+#define HOLD_ON_OTHER_KEY_PRESS
 
 // #define RGB_DI_PIN A1
 // #define WS2812_PWM_DRIVER PWMD2
@@ -141,25 +142,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #   define ENABLE_RGB_MATRIX_PIXEL_FRACTAL
 #   define ENABLE_RGB_MATRIX_PIXEL_FLOW
 #   define ENABLE_RGB_MATRIX_PIXEL_RAIN
-// Framebuffer Defines	
+// Framebuffer Defines
 #   define RGB_MATRIX_FRAMEBUFFER_EFFECTS // enable framebuffer effects
 #   define ENABLE_RGB_MATRIX_TYPING_HEATMAP
 #   define ENABLE_RGB_MATRIX_DIGITAL_RAIN
-// Reactive Defines	
+// Reactive Defines
 #   define RGB_MATRIX_KEYPRESSES // reacts to keypresses
 #   define RGB_MATRIX_KEYRELEASES // reacts to keyreleases (instead of keypresses)
-#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE	
-#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE	
-#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE	
-#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE	
-#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS	
-#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS	
-#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS	
-#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS	
-#   define ENABLE_RGB_MATRIX_SPLASH	
-#   define ENABLE_RGB_MATRIX_MULTISPLASH	
-#   define ENABLE_RGB_MATRIX_SOLID_SPLASH	
-#   define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH	
+#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
+#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE
+#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_WIDE
+#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTIWIDE
+#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_CROSS
+#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTICROSS
+#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_NEXUS
+#   define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
+#   define ENABLE_RGB_MATRIX_SPLASH
+#   define ENABLE_RGB_MATRIX_MULTISPLASH
+#   define ENABLE_RGB_MATRIX_SOLID_SPLASH
+#   define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH
 #endif
 
 #ifdef PS2_DRIVER_INTERRUPT
@@ -180,11 +181,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define PS2_MOUSE_BTN_RIGHT     1
 // #define PS2_MOUSE_BTN_MIDDLE    2
 // left
-#define PS2_CLOCK_PIN A15
-#define PS2_DATA_PIN  B3
+// #define PS2_CLOCK_PIN A15
+// #define PS2_DATA_PIN  B3
 // right
-// #define PS2_CLOCK_PIN B0
-// #define PS2_DATA_PIN  B1
+#define PS2_CLOCK_PIN B0
+#define PS2_DATA_PIN  B1
 // track point test
 // #define PS2_CLOCK_PIN A8
 // #define PS2_DATA_PIN  A9
